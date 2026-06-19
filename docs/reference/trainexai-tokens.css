@@ -1,0 +1,208 @@
+/**
+ * TrainexAI — Design Tokens (v3)
+ * Light SaaS theme — Stripe/Linear inspired.
+ * Dark theme available via .dark-theme or prefers-color-scheme.
+ */
+
+:root {
+  /* ── Fonts ────────────────────────────────────────────────────────── */
+  --font:            var(--font-inter, 'Inter'), -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-heading:    var(--font-inter, 'Inter'), -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+
+  /* ── Brand — Elegant & Premium ──────────────────────────────────── */
+  --primary:          #17324D;
+  --primary-hover:    #0F2438;
+  --primary-light:    rgba(23, 50, 77, 0.08);
+  --primary-ring:     rgba(23, 50, 77, 0.18);
+
+  --accent:           #B85C2B;
+  --accent-hover:     #954720;
+  --accent-light:     rgba(184, 92, 43, 0.08);
+
+  /* ── Surfaces — Warm cream ───────────────────────────────────────── */
+  --background:       #FCFBF9;
+  --surface:          #F5F3EF;
+  --surface-raised:   #FFFFFF;
+  --surface-overlay:  #EDE9E4;
+
+  /* ── Text — Warm stone ────────────────────────────────────────────── */
+  --heading:          #1C1917;
+  --body:             #57534E;
+  --muted:            #7C7874;
+  --disabled:         #C3BFBB;
+
+  /* ── Borders — Warm ──────────────────────────────────────────────── */
+  --border:           #E2DED8;
+  --border-strong:    #C9C2BA;
+  --border-accent:    rgba(30, 41, 59, 0.2);
+
+  /* ── Semantic — Refined ──────────────────────────────────────────── */
+  --success:          #059669;
+  --success-bg:       rgba(5, 150, 105, 0.08);
+  --warning:          #D97706;
+  --warning-bg:       rgba(217, 119, 6, 0.08);
+  --danger:           #DC2626;
+  --danger-bg:        rgba(220, 38, 38, 0.08);
+
+  /* ── Shadows ──────────────────────────────────────────────────────── */
+  /* ── Shadows ──────────────────────────────────────────────────────── */
+  --shadow-xs:  0 1px 2px rgba(0,0,0,0.05);
+  --shadow-sm:  0 1px 3px rgba(0,0,0,0.08);
+  --shadow-md:  0 4px 16px rgba(0,0,0,0.10);
+  --shadow-lg:  0 12px 40px rgba(0,0,0,0.12);
+  --shadow-xl:  0 24px 60px rgba(0,0,0,0.14);
+
+  /* ── Radius ───────────────────────────────────────────────────────── */
+  --radius-xs:   4px;
+  --radius-sm:   8px;
+  --radius-md:   10px;
+  --radius-lg:   12px;
+  --radius-xl:   16px;
+  --radius-2xl:  20px;
+  --radius-full: 9999px;
+
+  /* ── Spacing ──────────────────────────────────────────────────────── */
+  --sp-1:   4px;
+  --sp-2:   8px;
+  --sp-3:   12px;
+  --sp-4:   16px;
+  --sp-5:   20px;
+  --sp-6:   24px;
+  --sp-8:   32px;
+  --sp-10:  40px;
+  --sp-12:  48px;
+  --sp-16:  64px;
+  --sp-24:  96px;
+
+  /* ── Typography ───────────────────────────────────────────────────── */
+  --text-display-xl: 3.5rem;
+  --text-display-l:  3rem;
+  --text-h1:         2.25rem;
+  --text-h2:         1.75rem;
+  --text-h3:         1.375rem;
+  --text-body-lg:    1.125rem;
+  --text-body:       1rem;
+  --text-caption:    0.875rem;
+  --text-small:      0.75rem;
+
+  --text-xs:    var(--text-small);
+  --text-sm:    var(--text-caption);
+  --text-base:  var(--text-caption);
+  --text-md:    var(--text-body);
+  --text-lg:    var(--text-body-lg);
+  --text-xl:    var(--text-h3);
+  --text-2xl:   var(--text-h2);
+  --text-3xl:   var(--text-h1);
+  --text-4xl:   var(--text-display-l);
+
+  --weight-regular:  400;
+  --weight-medium:   500;
+  --weight-semibold: 600;
+  --weight-bold:     700;
+
+  --leading-display: 1.1;
+  --leading-tight:   1.2;
+  --leading-snug:    1.4;
+  --leading-normal:  1.6;
+  --leading-relaxed: 1.75;
+
+  /* ── Transitions ──────────────────────────────────────────────────── */
+  --transition-fast:   150ms ease;
+  --transition-normal: 250ms ease;
+  --ease:       0.2s ease;
+  --ease-fast:  0.15s ease;
+  --ease-slow:  0.3s ease;
+
+  /* ── Motion ───────────────────────────────────────────────────────── */
+  --motion-fast:     150ms;
+  --motion-card:     160ms;
+  --motion-normal:   250ms;
+  --motion-slow:     350ms;
+  --ease-standard:   cubic-bezier(0.2, 0, 0, 1);
+  --ease-out:        cubic-bezier(0, 0, 0.2, 1);
+  --ease-in:         cubic-bezier(0.4, 0, 1, 1);
+
+  /* ── Z-index ──────────────────────────────────────────────────────── */
+  --z-base:     0;
+  --z-raised:   10;
+  --z-dropdown: 100;
+  --z-nav:      1000;
+  --z-sidebar:  900;
+  --z-modal:    1600;
+  --z-toast:    9999;
+  --z-top:      99999;
+
+  /* ── Layout ───────────────────────────────────────────────────────── */
+  --nav-h:        64px;
+  --sidebar-w:    240px;
+  --content-max:  1280px;
+
+  /* ── Light Zone aliases — for auth.module.css and any --lm-* refs ── */
+  --lm-bg:             var(--background);
+  --lm-surface:        var(--surface);
+  --lm-surface-raised: var(--surface-raised);
+  --lm-heading:        var(--heading);
+  --lm-body:           var(--body);
+  --lm-muted:          var(--muted);
+  --lm-border:         var(--border);
+  --lm-border-strong:  var(--border-strong);
+  --lm-primary:        var(--primary);
+  --lm-primary-hover:  var(--primary-hover);
+  --lm-primary-light:  var(--primary-light);
+  --lm-primary-ring:   var(--primary-ring);
+  --lm-shadow-xs:      var(--shadow-xs);
+  --lm-shadow-sm:      var(--shadow-sm);
+  --lm-shadow-md:      var(--shadow-md);
+  --lm-shadow-lg:      var(--shadow-lg);
+  --lm-shadow-xl:      var(--shadow-xl);
+
+  /* ── Legacy aliases — backward compat ────────────────────────────── */
+  --color-primary:        var(--primary);
+  --color-primary-hover:  var(--primary-hover);
+  --color-primary-light:  var(--primary-light);
+  --color-primary-ring:   var(--primary-ring);
+  --surface-page:         var(--background);
+  --surface-base:         var(--surface);
+  --text-primary:         var(--heading);
+  --text-secondary:       var(--body);
+  --text-tertiary:        var(--muted);
+  --text-disabled:        var(--disabled);
+  --border-subtle:        var(--border);
+  --border-default:       var(--border);
+  --color-success:        var(--success);
+  --color-success-bg:     var(--success-bg);
+  --color-warning:        var(--warning);
+  --color-warning-bg:     var(--warning-bg);
+  --color-danger:         var(--danger);
+  --color-danger-bg:      var(--danger-bg);
+  --font-family:          var(--font);
+  --font-xs:              var(--text-xs);
+  --font-sm:              var(--text-sm);
+  --font-base:            var(--text-base);
+  --font-md:              var(--text-md);
+  --font-lg:              var(--text-lg);
+  --font-xl:              var(--text-xl);
+  --font-2xl:             var(--text-2xl);
+  --transition-base:      var(--ease);
+  --transition-fast:      var(--ease-fast);
+  --transition-slow:      var(--ease-slow);
+  --nav-height:           var(--nav-h);
+  --sidebar-width:        var(--sidebar-w);
+  --space-1: var(--sp-1); --space-2: var(--sp-2); --space-3: var(--sp-3);
+  --space-4: var(--sp-4); --space-5: var(--sp-5); --space-6: var(--sp-6);
+  --space-8: var(--sp-8); --space-10: var(--sp-10); --space-12: var(--sp-12);
+  --space-16: var(--sp-16);
+  --accent-color: var(--accent);
+  --accent-hover: #B45309;
+  --bg-dark: var(--background);
+  --bg-darker: var(--surface);
+  --bg-widget: var(--surface);
+  --bg-card: var(--surface-raised);
+  --surface-elevated: var(--surface-raised);
+  --error: var(--danger);
+  --border-color: var(--border);
+  --text-light: var(--heading);
+  --text-muted: var(--body);
+  --text-dim: var(--muted);
+  --gradient: linear-gradient(135deg, var(--primary), var(--primary-hover));
+}
