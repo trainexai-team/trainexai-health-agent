@@ -8,6 +8,7 @@ import Button from "@/components/ui/Button";
 interface CheckInFormProps {
   onSubmit: (data: CheckInFormData) => void;
   loading?: boolean;
+  defaultUserId?: string;
 }
 
 export interface CheckInFormData {
@@ -21,8 +22,8 @@ export interface CheckInFormData {
   raw_text?: string;
 }
 
-export default function CheckInForm({ onSubmit, loading }: CheckInFormProps) {
-  const [userId, setUserId] = useState("");
+export default function CheckInForm({ onSubmit, loading, defaultUserId }: CheckInFormProps) {
+  const [userId, setUserId] = useState(defaultUserId || "");
   const [rawText, setRawText] = useState("");
   const [advancedOpen, setAdvancedOpen] = useState(false);
   const [fields, setFields] = useState({
@@ -57,17 +58,19 @@ export default function CheckInForm({ onSubmit, loading }: CheckInFormProps) {
       animate={{ opacity: 1, y: 0 }}
       className="space-y-6"
     >
-      {/* User ID */}
-      <div>
-        <label className="block text-sm font-medium text-gray-700 mb-1">User ID *</label>
-        <input
-          type="text"
-          value={userId}
-          onChange={(e) => setUserId(e.target.value)}
-          className="w-full px-4 py-2.5 rounded-xl border border-gray-200 focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20 outline-none transition-all"
-          placeholder="e.g. demo-user-001"
-        />
-      </div>
+      {/* User ID - hidden when defaultUserId is provided */}
+      {!defaultUserId && (
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-1">User ID *</label>
+          <input
+            type="text"
+            value={userId}
+            onChange={(e) => setUserId(e.target.value)}
+            className="w-full px-4 py-2.5 rounded-xl border border-gray-200 focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20 outline-none transition-all"
+            placeholder="e.g. demo-user-001"
+          />
+        </div>
+      )}
 
       {/* Quick text check-in */}
       <div>

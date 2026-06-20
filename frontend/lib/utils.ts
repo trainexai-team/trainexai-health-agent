@@ -11,6 +11,3 @@ export function formatDate(date: string | Date) {
   });
 }
 
-export function generateUserId() {
-  return `user-${Date.now()}-${Math.random().toString(36).substring(2, 8)}`;
-}

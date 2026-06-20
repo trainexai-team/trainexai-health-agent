@@ -27,10 +27,10 @@ export default function CTASection() {
             </p>
             <div className="flex flex-wrap justify-center gap-4">
               <Link
-                href="/demo"
+                href="/login"
                 className="inline-flex items-center gap-2 px-8 py-3.5 rounded-xl bg-accent-500 text-white font-semibold hover:bg-accent-600 hover:-translate-y-0.5 transition-all shadow-xl"
               >
-                <Play className="w-4 h-4" /> Watch 3-Min Demo
+                <Play className="w-4 h-4" /> Get Started Free
               </Link>
               <Link
                 href="/checkin"

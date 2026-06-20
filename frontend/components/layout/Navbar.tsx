@@ -1,29 +1,43 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
-import { Menu, X } from "lucide-react";
+import { usePathname, useRouter } from "next/navigation";
+import { Menu, X, LogOut, LayoutDashboard } from "lucide-react";
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-
-const navLinks = [
-  { href: "/", label: "Home" },
-  { href: "/profile", label: "Profile" },
-  { href: "/checkin", label: "Check-In" },
-  { href: "/decision", label: "Decision" },
-  { href: "/report", label: "Report" },
-  { href: "/demo", label: "Demo" },
-];
+import { useAuth } from "@/lib/auth";
 
 export default function Navbar() {
   const pathname = usePathname();
+  const router = useRouter();
+  const { userId, logout } = useAuth();
   const [mobileOpen, setMobileOpen] = useState(false);
+
+  const isAuthenticated = !!userId;
+
+  const navLinks = isAuthenticated
+    ? [
+        { href: "/dashboard", label: "Dashboard" },
+        { href: "/checkin", label: "Check-In" },
+        { href: "/report", label: "Report" },
+        { href: "/profile", label: "Profile" },
+      ]
+    : [
+        { href: "/", label: "Home" },
+        { href: "/login", label: "Login" },
+      ];
+
+  const handleLogout = () => {
+    logout();
+    setMobileOpen(false);
+    router.push("/");
+  };
 
   return (
     <nav className="sticky top-0 z-50 bg-white/80 backdrop-blur-xl border-b border-gray-200/50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
-          <Link href="/" className="flex items-center group" aria-label="TrainexAI home">
+          <Link href={isAuthenticated ? "/dashboard" : "/"} className="flex items-center group" aria-label="TrainexAI home">
             <img
               src="/logo-mark.svg"
               alt="TrainexAI"
@@ -54,6 +68,16 @@ export default function Navbar() {
                 </Link>
               );
             })}
+            {isAuthenticated && (
+              <button
+                onClick={handleLogout}
+                className="ml-2 px-3 py-2 rounded-lg text-sm font-medium text-gray-400 hover:text-gray-600 hover:bg-gray-50 transition-all duration-200 flex items-center gap-1.5"
+                title="Logout"
+              >
+                <LogOut className="w-3.5 h-3.5" />
+                Logout
+              </button>
+            )}
           </div>
 
           {/* Mobile button */}
@@ -93,6 +117,15 @@ export default function Navbar() {
                   </Link>
                 );
               })}
+              {isAuthenticated && (
+                <button
+                  onClick={handleLogout}
+                  className="w-full text-left px-4 py-2.5 rounded-lg text-sm font-medium text-gray-400 hover:text-gray-600 hover:bg-gray-50 transition-all"
+                >
+                  <LogOut className="w-3.5 h-3.5 inline mr-1" />
+                  Logout
+                </button>
+              )}
             </div>
           </motion.div>
         )}

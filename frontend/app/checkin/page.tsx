@@ -1,25 +1,52 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
-import { ClipboardCheck, CheckCircle2, ArrowRight } from "lucide-react";
+import {
+  ClipboardCheck,
+  CheckCircle2,
+  ArrowRight,
+  Brain,
+  Loader2,
+} from "lucide-react";
 import CheckInForm, { CheckInFormData } from "@/components/CheckInForm";
 import ConsistencyScore from "@/components/ConsistencyScore";
-import { createCheckin } from "@/lib/api";
+import { useAuth } from "@/lib/auth";
+import { createCheckin, generateDecision } from "@/lib/api";
+import Button from "@/components/ui/Button";
 
 export default function CheckInPage() {
+  const router = useRouter();
+  const { userId, hasProfile, loading: authLoading } = useAuth();
   const [loading, setLoading] = useState(false);
+  const [generating, setGenerating] = useState(false);
   const [result, setResult] = useState<{
     consistency_score: number;
     score_breakdown: Record<string, { score: number; max: number; note: string }>;
   } | null>(null);
   const [error, setError] = useState("");
 
+  // Redirect to login if not authenticated
+  useEffect(() => {
+    if (!authLoading && !userId) {
+      router.push("/login");
+    }
+  }, [userId, authLoading, router]);
+
+  // Redirect to onboarding if no profile
+  useEffect(() => {
+    if (!authLoading && userId && !hasProfile) {
+      router.push("/onboarding");
+    }
+  }, [userId, hasProfile, authLoading, router]);
+
   const handleSubmit = async (data: CheckInFormData) => {
+    if (!userId) return;
     setLoading(true);
     setError("");
     try {
-      const res = await createCheckin(data);
+      const res = await createCheckin({ ...data, user_id: userId });
       setResult({
         consistency_score: res.consistency_score,
         score_breakdown: res.score_breakdown,
@@ -30,6 +57,26 @@ export default function CheckInPage() {
       setLoading(false);
     }
   };
+
+  const handleGenerateAndGoToDashboard = async () => {
+    if (!userId) return;
+    setGenerating(true);
+    try {
+      await generateDecision(userId);
+      router.push("/dashboard");
+    } catch (err: any) {
+      setError(err.message || "Failed to generate decision.");
+      setGenerating(false);
+    }
+  };
+
+  if (authLoading || !userId) {
+    return (
+      <div className="min-h-[60vh] flex items-center justify-center">
+        <Loader2 className="w-8 h-8 animate-spin text-brand-500" />
+      </div>
+    );
+  }
 
   return (
     <div className="max-w-2xl mx-auto px-4 py-12">
@@ -64,12 +111,13 @@ export default function CheckInPage() {
             />
 
             <div className="mt-8 flex flex-col sm:flex-row gap-4 justify-center">
-              <a
-                href="/decision"
-                className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-brand-500 text-white font-semibold shadow-lg hover:bg-brand-600 hover:-translate-y-0.5 transition-all"
+              <Button
+                onClick={handleGenerateAndGoToDashboard}
+                loading={generating}
+                className="flex-1"
               >
-                Get My Decision <ArrowRight className="w-4 h-4" />
-              </a>
+                <Brain className="w-4 h-4" /> Generate Decision & Go to Dashboard
+              </Button>
               <button
                 onClick={() => setResult(null)}
                 className="px-6 py-3 rounded-xl bg-white text-gray-700 border border-gray-200 font-semibold hover:-translate-y-0.5 transition-all"
@@ -77,9 +125,24 @@ export default function CheckInPage() {
                 Check In Again
               </button>
             </div>
+            <div className="mt-3">
+              <button
+                onClick={() => router.push("/dashboard")}
+                className="text-sm text-gray-400 hover:text-gray-600 transition-colors"
+              >
+                Skip to dashboard
+              </button>
+            </div>
           </motion.div>
         ) : (
-          <CheckInForm onSubmit={handleSubmit} loading={loading} />
+          <>
+            <div className="mb-4 p-3 rounded-xl bg-brand-50 border border-brand-100">
+              <p className="text-sm text-brand-700">
+                Checking in as <span className="font-mono font-medium">{userId}</span>
+              </p>
+            </div>
+            <CheckInForm onSubmit={handleSubmit} loading={loading} defaultUserId={userId} />
+          </>
         )}
 
         {error && (

@@ -36,10 +36,10 @@ export default function Hero() {
 
             <div className="mt-8 flex flex-col gap-4 sm:flex-row sm:flex-wrap">
               <Link
-                href="/demo"
+                href="/login"
                 className="inline-flex w-full items-center justify-center gap-2 px-6 py-3 rounded-xl bg-brand-500 text-white font-semibold shadow-lg shadow-brand-500/30 hover:bg-brand-600 hover:shadow-xl hover:shadow-brand-500/40 hover:-translate-y-0.5 transition-all sm:w-auto"
               >
-                Try Live Demo <ArrowRight className="w-4 h-4" />
+                Get Started <ArrowRight className="w-4 h-4" />
               </Link>
               <Link
                 href="/checkin"

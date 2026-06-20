@@ -22,9 +22,9 @@ export default function Footer() {
             <h4 className="text-white font-semibold mb-3">Quick Links</h4>
             <ul className="space-y-2 text-sm">
               <li><a href="/" className="hover:text-white transition-colors">Home</a></li>
-              <li><a href="/profile" className="hover:text-white transition-colors">Profile</a></li>
+              <li><a href="/login" className="hover:text-white transition-colors">Login</a></li>
+              <li><a href="/dashboard" className="hover:text-white transition-colors">Dashboard</a></li>
               <li><a href="/checkin" className="hover:text-white transition-colors">Check-In</a></li>
-              <li><a href="/demo" className="hover:text-white transition-colors">Demo</a></li>
             </ul>
           </div>
 

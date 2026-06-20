@@ -79,8 +79,8 @@ export async function getWeeklyReport(userId: string) {
 }
 
 // Demo
-export async function getDemoUser() {
-  return fetchAPI("/demo-user");
+export async function getDemoUser(userType: string = "1") {
+  return fetchAPI(`/demo-user?user_type=${userType}`);
 }
 
 // Health
