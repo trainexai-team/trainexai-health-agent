@@ -17,32 +17,52 @@ People fail health goals because:
 
 ## Solution
 
-TrainexAI Health Agent is not another fitness tracker or AI chatbot. It is a **Health Decision Engine** that converts daily food, sleep, workout, and mood data into **one simple action plan every day**.
+TrainexAI Health Agent is **not** another fitness tracker or AI chatbot. It is a **Health Decision Engine** that converts daily food, sleep, workout, and mood data into **one simple action plan every day**.
+
+## Quick Demo (3 Minutes)
+
+Try the guided demo at **[/demo](/demo)** — click "Start 3-Minute Demo" and watch the full flow:
+
+1. **Problem** — why most health goals fail
+2. **Profile** — auto-creates a user profile (Age 24, Fat Loss, Indian Vegetarian)
+3. **Check-In** — "I slept 5 hours, ate 3 idlis with sambar and tea, skipped workout"
+4. **AI Decision** — personalized action plan with nutrition + workout + accountability
+5. **Consistency Score** — 65/100 with full breakdown
+6. **Weekly Report** — trends and next week plan
+7. **Scalability** — AI cached, scores calculated backend-side, fallback active
+
+Or log in directly at **[/login](/login)** to start from your own profile.
+
+## User Flow
+
+```
+Landing Page (/)  →  Login (/login)  →  Onboarding (/onboarding)  →  Dashboard (/dashboard)
+                                      ↗                              ↕
+                              Demo (/demo) — guided walkthrough   Check-In → Report → Profile
+```
+
+| Route | Purpose |
+|-------|---------|
+| `/` | Landing page with pitch, features, and CTA |
+| `/login` | Demo login (3 profiles) + manual User ID entry |
+| `/onboarding` | Profile creation for new users |
+| `/dashboard` | Home hub — decision, score, check-in summary |
+| `/checkin` | Daily health data logging |
+| `/report` | Weekly trends, improvements, and next week plan |
+| `/profile` | View/edit saved health profile |
+| `/demo` | Guided 3-minute walkthrough for judges |
 
 ## Key Features
 
 | Feature | Description |
 |---------|-------------|
-| **User Health Profile** | Age, goal, diet preference, fitness level — personalized guidance |
-| **Daily Check-In** | Log sleep, meals, workout, water, and mood in seconds |
+| **User Health Profile** | Name, age, goal, diet preference, fitness level, height, weight, injury notes |
+| **Daily Check-In** | Log sleep, meals, workout, water, and mood in seconds — text or form |
 | **Consistency Score** | Score out of 100 with 5-metric breakdown (no AI needed) |
-| **AI Decision Card** | One daily decision + nutrition + workout + accountability |
-| **Weekly Health Report** | Trends, improvements, problems, and next week plan |
+| **AI Decision Card** | One daily decision + nutrition action + workout action + accountability |
+| **Weekly Health Report** | Trends, improvements, problems, and next week plan with interactive charts |
 | **Rule-Based Fallback** | Demo works even without AI API key |
-
-## Screenshots
-
-| Landing Page | Demo Page |
-|:---:|:---:|
-| ![Landing](screenshots/landing.png) | ![Demo](screenshots/demo.png) |
-
-| Profile Page | Check-In Page |
-|:---:|:---:|
-| ![Profile](screenshots/profile.png) | ![Check-In](screenshots/checkin.png) |
-
-| Decision Page | Report Page |
-|:---:|:---:|
-| ![Decision](screenshots/decision.png) | ![Report](screenshots/report.png) |
+| **Simple Auth** | localStorage-based, no passwords, production-friendly |
 
 ## Safety
 
@@ -75,19 +95,22 @@ See [docs/architecture.md](docs/architecture.md) for detailed architecture.
 ```
 trainexai-health-agent/
 ├── frontend/                 # Next.js application
-│   ├── app/                  # Pages (/, /profile, /checkin, /decision, /report, /demo)
-│   ├── components/           # Reusable UI components
-│   └── lib/                  # API client and utilities
+│   ├── app/                  # Pages (/, /login, /onboarding, /dashboard, /checkin, /report, /profile, /demo)
+│   ├── components/           # Reusable UI components (layout, landing, checkin, decision, profile, chart)
+│   └── lib/                  # API client, auth context, utilities, constants
 ├── backend/                  # FastAPI application
 │   └── app/
-│       ├── routes/           # API endpoints
-│       └── services/         # Business logic (consistency, AI, fallback)
+│       ├── routes/           # API endpoints (profile, checkin, decision, report, demo, timeline)
+│       ├── services/         # Business logic (consistency, AI, fallback)
+│       ├── main.py           # App entry point
+│       ├── models.py         # Pydantic schemas
+│       ├── database.py       # DB connection & table initialization
+│       └── config.py         # Environment configuration
 ├── docs/                     # Documentation
 │   ├── problem-statement.md
 │   ├── architecture.md
 │   ├── scalability.md
 │   └── safety.md
-├── screenshots/              # Demo screenshots
 ├── .env.example              # Environment variables template
 ├── README.md
 └── LICENSE
@@ -105,6 +128,7 @@ trainexai-health-agent/
 | POST | `/decision/generate` | Generate AI decision |
 | GET | `/decision/today/{user_id}` | Get today's cached decision |
 | GET | `/weekly-report/{user_id}` | Get weekly report |
+| GET | `/timeline/{user_id}` | Get health timeline |
 | GET | `/demo-user` | Create/get demo user |
 
 ## Setup Instructions
@@ -137,8 +161,6 @@ uvicorn app.main:app --reload --port 8000
 ```bash
 cd frontend
 npm install
-# or
-pnpm install
 
 # Set up environment variables
 cp .env.example .env.local
@@ -146,8 +168,6 @@ cp .env.example .env.local
 
 # Run the development server
 npm run dev
-# or
-pnpm dev
 ```
 
 ### Environment Variables
@@ -159,21 +179,11 @@ See `.env.example` for all required variables:
 DATABASE_URL=postgresql://user:password@host:5432/postgres
 GEMINI_API_KEY=your-gemini-api-key-here
 GEMINI_MODEL=gemini-2.0-flash
-CORS_ORIGINS=http://localhost:3000,https://dailydecide.pages.dev
+CORS_ORIGINS=http://localhost:3000,https://your-deploy.pages.dev
 
 # Frontend
-NEXT_PUBLIC_API_URL=https://trainexai-health-agent.onrender.com
+NEXT_PUBLIC_API_URL=http://localhost:8000
 ```
-
-## Demo Flow (3 Minutes)
-
-1. **Go to `/demo`** — click "Start Demo"
-2. **Profile** — Auto-creates: Age 24, Fat Loss, Indian Vegetarian, Beginner
-3. **Check-In** — "I slept 5 hours, ate 3 idlis with sambar and tea, skipped workout, drank 1 litre water"
-4. **AI Decision** — Personalized action plan based on check-in
-5. **Consistency Score** — 65/100 with full breakdown
-6. **Weekly Report** — Trends and next week plan
-7. **Scalability** — AI cached, scores backend-calculated, fallback active
 
 ## AI Cost Control
 
@@ -192,9 +202,9 @@ See [docs/scalability.md](docs/scalability.md) for detailed scaling strategy, co
 - [ ] Wearable device integration (Fitbit, Apple Watch)
 - [ ] Meal photo recognition
 - [ ] Hindi and regional language support
-- [ ] Push notifications
+- [ ] Push notifications for daily check-ins
 - [ ] Social accountability features
-- [ ] Merge into main TrainexAI platform
+- [ ] Merge into main TrainexAI platform as `/health-agent`
 
 ## License
 

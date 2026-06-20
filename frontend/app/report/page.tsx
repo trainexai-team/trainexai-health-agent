@@ -25,6 +25,7 @@ export default function ReportPage() {
   const [report, setReport] = useState<any>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  //
 
   // Redirect to login if not authenticated
   useEffect(() => {
@@ -39,25 +40,28 @@ export default function ReportPage() {
     setLoading(true);
     setError("");
     getWeeklyReport(userId)
-      .then(setReport)
+      .then((reportData) => {
+        setReport(reportData);
+      })
       .catch((err: any) => {
         setError(err.message || "Failed to get report. Make sure you have check-in data.");
       })
       .finally(() => setLoading(false));
   }, [userId]);
 
+  // Build chart data from report
   const chartData = report
     ? {
         labels: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
         scores: [
-          report.avg_consistency_score - 10,
-          report.avg_consistency_score - 5,
-          report.avg_consistency_score + 5,
-          report.avg_consistency_score - 15,
-          report.avg_consistency_score + 10,
-          report.avg_consistency_score,
-          report.avg_consistency_score + 3,
-        ].map((s) => Math.max(0, Math.min(100, Math.round(s)))),
+          Math.round(Math.max(0, report.avg_consistency_score - 10)),
+          Math.round(Math.max(0, report.avg_consistency_score - 5)),
+          Math.round(Math.min(100, report.avg_consistency_score + 5)),
+          Math.round(Math.max(0, report.avg_consistency_score - 15)),
+          Math.round(Math.min(100, report.avg_consistency_score + 10)),
+          Math.round(report.avg_consistency_score),
+          Math.round(Math.min(100, report.avg_consistency_score + 3)),
+        ],
         sleepData: [5.5, 6, 7.5, 5, 8, 7, 6.5],
       }
     : { labels: [], scores: [], sleepData: [] };
@@ -146,14 +150,14 @@ export default function ReportPage() {
               },
               {
                 label: "Best Improvement",
-                value: "Fitness",
+                value: report.biggest_improvement?.startsWith("Great") ? "Workout" : "Awareness",
                 suffix: "",
                 icon: TrendingUp,
                 gradient: "from-brand-400 to-brand-600",
               },
               {
                 label: "Focus Area",
-                value: "Sleep",
+                value: report.biggest_problem?.includes("Sleep") ? "Sleep" : report.biggest_problem?.includes("Workout") ? "Workout" : "Consistency",
                 suffix: "",
                 icon: Moon,
                 gradient: "from-brand-600 to-brand-700",

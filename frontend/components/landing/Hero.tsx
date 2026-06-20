@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { ArrowRight, ShieldCheck, Sparkles } from "lucide-react";
+import { ArrowRight, ShieldCheck, Sparkles, Play } from "lucide-react";
 import Link from "next/link";
 
 export default function Hero() {
@@ -18,9 +18,10 @@ export default function Hero() {
             transition={{ duration: 0.6 }}
             className="w-full max-w-xs min-w-0 sm:max-w-none"
           >
+            {/* Pitch badge */}
             <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-brand-100 text-brand-700 text-sm font-semibold mb-6">
               <Sparkles className="w-4 h-4" />
-              AI-Powered Health Decision Engine
+              Not a tracker. Not a chatbot. A Health Decision Engine.
             </div>
 
             <h1 className="text-4xl md:text-5xl lg:text-[3.45rem] font-extrabold text-[#0F172A] leading-[1.08] tracking-normal">
@@ -40,6 +41,12 @@ export default function Hero() {
                 className="inline-flex w-full items-center justify-center gap-2 px-6 py-3 rounded-xl bg-brand-500 text-white font-semibold shadow-lg shadow-brand-500/30 hover:bg-brand-600 hover:shadow-xl hover:shadow-brand-500/40 hover:-translate-y-0.5 transition-all sm:w-auto"
               >
                 Get Started <ArrowRight className="w-4 h-4" />
+              </Link>
+              <Link
+                href="/demo"
+                className="inline-flex w-full items-center justify-center gap-2 px-6 py-3 rounded-xl bg-accent-500 text-white font-semibold shadow-lg shadow-accent-500/30 hover:bg-accent-600 hover:shadow-xl hover:shadow-accent-500/40 hover:-translate-y-0.5 transition-all sm:w-auto"
+              >
+                <Play className="w-4 h-4" /> Try Demo — 3 Min
               </Link>
               <Link
                 href="/checkin"
