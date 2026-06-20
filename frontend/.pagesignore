@@ -1,2 +1,4 @@
 # Ignore Next.js build cache — too large for Cloudflare Pages
 .next
+node_modules
+node_modules/**/*
