@@ -145,10 +145,10 @@ See `.env.example` for all required variables:
 DATABASE_URL=postgresql://user:password@host:5432/postgres
 GEMINI_API_KEY=your-gemini-api-key-here
 GEMINI_MODEL=gemini-2.0-flash
-CORS_ORIGINS=http://localhost:3000
+CORS_ORIGINS=http://localhost:3000,https://dailydecide.pages.dev
 
 # Frontend
-NEXT_PUBLIC_API_URL=http://localhost:8000
+NEXT_PUBLIC_API_URL=https://trainexai-health-agent.onrender.com
 ```
 
 ## Demo Flow (3 Minutes)
