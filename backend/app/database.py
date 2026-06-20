@@ -38,6 +38,7 @@ def init_db():
             mood_energy INTEGER,
             notes TEXT,
             raw_text TEXT,
+            weight_kg FLOAT,
             created_at TIMESTAMP DEFAULT NOW(),
             UNIQUE(user_id, checkin_date)
         );

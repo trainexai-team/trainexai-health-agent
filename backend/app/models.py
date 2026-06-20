@@ -39,6 +39,7 @@ class CheckInCreate(BaseModel):
     mood_energy: Optional[int] = Field(default=None, ge=1, le=10)
     notes: Optional[str] = None
     raw_text: Optional[str] = None
+    weight_kg: Optional[float] = None
 
 
 class CheckInResponse(BaseModel):
@@ -52,6 +53,7 @@ class CheckInResponse(BaseModel):
     mood_energy: Optional[int] = None
     notes: Optional[str] = None
     raw_text: Optional[str] = None
+    weight_kg: Optional[float] = None
     consistency_score: Optional[int] = None
     score_breakdown: Optional[dict] = None
 

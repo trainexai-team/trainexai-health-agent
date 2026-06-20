@@ -2,7 +2,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from app.config import CORS_ORIGINS
 from app.database import init_db
-from app.routes import profile, checkin, decision, demo, report
+from app.routes import profile, checkin, decision, demo, report, health_timeline
 
 app = FastAPI(
     title="TrainexAI Health Agent API",
@@ -26,6 +26,7 @@ app.include_router(profile.router, tags=["Profile"])
 app.include_router(checkin.router, tags=["Check-in"])
 app.include_router(decision.router, tags=["Decisions"])
 app.include_router(report.router, tags=["Reports"])
+app.include_router(health_timeline.router, tags=["Timeline"])
 
 
 @app.on_event("startup")

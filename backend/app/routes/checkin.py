@@ -22,8 +22,8 @@ def create_checkin(checkin: CheckInCreate):
         )
 
         cur.execute(
-            """INSERT INTO checkins (user_id, sleep_hours, meals_description, workout_done, water_litres, mood_energy, notes, raw_text)
-               VALUES (%s, %s, %s, %s, %s, %s, %s, %s)
+            """INSERT INTO checkins (user_id, sleep_hours, meals_description, workout_done, water_litres, mood_energy, notes, raw_text, weight_kg)
+               VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)
                ON CONFLICT (user_id, checkin_date) DO UPDATE SET
                sleep_hours = EXCLUDED.sleep_hours,
                meals_description = EXCLUDED.meals_description,
@@ -31,11 +31,12 @@ def create_checkin(checkin: CheckInCreate):
                water_litres = EXCLUDED.water_litres,
                mood_energy = EXCLUDED.mood_energy,
                notes = EXCLUDED.notes,
-               raw_text = EXCLUDED.raw_text
+               raw_text = EXCLUDED.raw_text,
+               weight_kg = EXCLUDED.weight_kg
                RETURNING *""",
             (checkin.user_id, checkin.sleep_hours, checkin.meals_description,
              checkin.workout_done, checkin.water_litres, checkin.mood_energy,
-             checkin.notes, checkin.raw_text)
+             checkin.notes, checkin.raw_text, checkin.weight_kg)
         )
         result = dict(cur.fetchone())
         conn.commit()
