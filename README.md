@@ -30,6 +30,20 @@ TrainexAI Health Agent is not another fitness tracker or AI chatbot. It is a **H
 | **Weekly Health Report** | Trends, improvements, problems, and next week plan |
 | **Rule-Based Fallback** | Demo works even without AI API key |
 
+## Screenshots
+
+| Landing Page | Demo Page |
+|:---:|:---:|
+| ![Landing](screenshots/landing.png) | ![Demo](screenshots/demo.png) |
+
+| Profile Page | Check-In Page |
+|:---:|:---:|
+| ![Profile](screenshots/profile.png) | ![Check-In](screenshots/checkin.png) |
+
+| Decision Page | Report Page |
+|:---:|:---:|
+| ![Decision](screenshots/decision.png) | ![Report](screenshots/report.png) |
+
 ## Safety
 
 > **TrainexAI provides fitness and nutrition guidance only. It does not diagnose, treat, or replace medical professionals.**

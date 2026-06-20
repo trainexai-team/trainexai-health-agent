@@ -1,10 +1,7 @@
 from fastapi import APIRouter, HTTPException
 from app.database import get_connection
-from app.models import HealthResponse, ProfileCreate, CheckInCreate
-from app.services.consistency import calculate_consistency_score
-from app.services.fallback import generate_fallback_decision
+from app.models import HealthResponse
 import psycopg2.extras
-import json
 from datetime import date, timedelta
 
 router = APIRouter()
@@ -72,35 +69,10 @@ def get_or_create_demo_user():
                      8 if is_good else 4)
                 )
 
-            # Calculate score for fallback decision
-            score, breakdown = calculate_consistency_score(
-                sleep_hours=5,
-                workout_done=False,
-                water_litres=1.0,
-                mood_energy=5,
-                meals_description="3 idlis with sambar and tea"
-            )
-
-            # Generate fallback decision
-            main_decision, nutrition_action, workout_action, accountability_message = generate_fallback_decision(
-                sleep_hours=5,
-                workout_done=False,
-                water_litres=1.0,
-                mood_energy=5,
-                meals_description="3 idlis with sambar and tea",
-                goal="Fat loss",
-                diet_preference="Indian vegetarian",
-                fitness_level="Beginner",
-            )
-
-            # Save demo decision
+            # Delete any cached fallback decision so demo generates a fresh AI decision
             cur.execute(
-                """INSERT INTO health_decisions (user_id, main_decision, nutrition_action, workout_action, accountability_message, consistency_score, score_breakdown, is_fallback)
-                   VALUES (%s, %s, %s, %s, %s, %s, %s, %s)
-                   ON CONFLICT (user_id, decision_date) DO NOTHING
-                   RETURNING *""",
-                (demo_user_id, main_decision, nutrition_action, workout_action,
-                 accountability_message, score, json.dumps(breakdown), True)
+                "DELETE FROM health_decisions WHERE user_id = %s AND decision_date = CURRENT_DATE",
+                (demo_user_id,)
             )
 
             conn.commit()
